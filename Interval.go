@@ -8,17 +8,17 @@ import (
 
 type IInterval[T constraints.Integer | constraints.Float] interface {
 	Lower() T
-	SetLower(lower T) error
+	SetLower(lower T)
 	Upper() T
-	SetUpper(upper T) error
+	SetUpper(upper T)
 	LowerUnbounded() bool
-	SetLowerUnbounded(lowerUnbounded bool) error
+	SetLowerUnbounded(lowerUnbounded bool)
 	UpperUnbounded() bool
-	SetUpperUnbounded(upperUnbounded bool) error
+	SetUpperUnbounded(upperUnbounded bool)
 	LowerIncluded() bool
-	SetLowerIncluded(lowerIncluded bool) error
+	SetLowerIncluded(lowerIncluded bool)
 	UpperIncluded() bool
-	SetUpperIncluded(upperIncluded bool) error
+	SetUpperIncluded(upperIncluded bool)
 	String() string
 	Equal(x IInterval[T]) bool
 	IsEmpty() bool
@@ -63,54 +63,48 @@ func (i *Interval[T]) Lower() T {
 	return i.lower
 }
 
-func (i *Interval[T]) SetLower(lower T) error {
+func (i *Interval[T]) SetLower(lower T) {
 	i.lower = lower
-	return nil
 }
 
 func (i *Interval[T]) Upper() T {
 	return i.upper
 }
 
-func (i *Interval[T]) SetUpper(upper T) error {
+func (i *Interval[T]) SetUpper(upper T) {
 	i.upper = upper
-	return nil
 }
 
 func (i *Interval[T]) LowerUnbounded() bool {
 	return i.lowerUnbounded
 }
 
-func (i *Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
+func (i *Interval[T]) SetLowerUnbounded(lowerUnbounded bool) {
 	i.lowerUnbounded = lowerUnbounded
-	return nil
 }
 
 func (i *Interval[T]) UpperUnbounded() bool {
 	return i.upperUnbounded
 }
 
-func (i *Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
+func (i *Interval[T]) SetUpperUnbounded(upperUnbounded bool) {
 	i.upperUnbounded = upperUnbounded
-	return nil
 }
 
 func (i *Interval[T]) LowerIncluded() bool {
 	return i.lowerIncluded
 }
 
-func (i *Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
+func (i *Interval[T]) SetLowerIncluded(lowerIncluded bool) {
 	i.lowerIncluded = lowerIncluded
-	return nil
 }
 
 func (i *Interval[T]) UpperIncluded() bool {
 	return i.upperIncluded
 }
 
-func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
+func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) {
 	i.upperIncluded = upperIncluded
-	return nil
 }
 
 func (i *Interval[T]) String() string {
@@ -333,7 +327,7 @@ func (i *Interval[T]) Intersect(x IInterval[T]) IInterval[T] {
 	return maybeEmpty(r)
 }
 
-func maybeEmpty[T constraints.Integer | constraints.Float](x IInterval[T]) IInterval[T] {
+func maybeEmpty[T constraints.Integer | constraints.Float](x *Interval[T]) IInterval[T] {
 	if x == nil || x.IsEmpty() {
 		return nil
 	}
