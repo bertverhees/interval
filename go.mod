@@ -1,4 +1,4 @@
-module Interval
+module github.com/bertverhees/interval
 
 go 1.21
 
