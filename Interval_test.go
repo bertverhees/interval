@@ -257,18 +257,20 @@ func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing
 				t.Errorf(er.Error())
 				return
 			}
-			if e == nil && we == nil {
-				return
-			}
-			if e == nil && we != nil {
-				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s",
-					i, x, we, tc.i_intersect_x, "nil", tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
-				return
-			}
-			if e != nil && we == nil {
-				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s",
-					i, x, "nil", tc.i_intersect_x, e, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
-				return
+			if we == nil {
+				if ee == nil {
+					return
+				}else{
+					t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s",
+						i, x, "nil", tc.i_intersect_x, e, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
+					return
+				}
+			}else{
+				if ee == nil {
+					t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s",
+						i, x, we, tc.i_intersect_x, "nil", tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
+					return
+				}
 			}
 			if !e.Equal(we) {
 				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s",
@@ -299,18 +301,20 @@ func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T)
 				t.Errorf(er.Error())
 				return
 			}
-			if l == nil && wl == nil {
-				return
-			}
-			if l == nil && wl != nil {
-				t.Errorf("\nwant %s.Adjoin(%s) = %s (result conform test)\n but is actually %s, counter: %v\n%s\n%s",
-					i, x, wl, "nil", tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
-				return
-			}
-			if l != nil && wl == nil {
-				t.Errorf("\nwant %s.Adjoin(%s) = %s (result conform test)\n but is actually %s, counter: %v\n%s\n%s",
-					i, x, "nil", l, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
-				return
+			if wl == nil {
+				if l == nil {
+					return
+				}else{
+					t.Errorf("\nwant %s.Adjoin(%s) = %s (result conform test)\n but is actually %s, counter: %v\n%s\n%s",
+						i, x, "nil", l, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
+					return
+				}
+			}else {
+				if l == nil{
+					t.Errorf("\nwant %s.Adjoin(%s) = %s (result conform test)\n but is actually %s, counter: %v\n%s\n%s",
+						i, x, wl, "nil", tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
+					return
+				}
 			}
 			if !l.Equal(wl) {
 				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
@@ -423,11 +427,6 @@ func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.
 					i, x, wj, wk, tc.i_Subtract_x_before, tc.i_Subtract_x_after, j, k, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
 				return
 			}
-			if !j.Equal(wj) || !k.Equal(wk) {
-				t.Errorf("\nwant %s.Subtract(%s) = %s, %s\n%s,%s (result conform test)\n but is actually %s, %s, counter: %v-b\n%s\n%s",
-					x, i, wj, wk, tc.x_Subtract_i_before, tc.x_Subtract_i_after, j, k, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
-				return
-			}
 		})
 	}
 }
@@ -450,9 +449,6 @@ func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing
 			wo, er := parseInterval[T](tc.i_Encompass_x)
 			if er != nil {
 				t.Errorf(er.Error())
-				return
-			}
-			if o == nil && wo == nil {
 				return
 			}
 			if o == nil && wo == nil {
